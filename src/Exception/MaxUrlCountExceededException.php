@@ -1,6 +1,6 @@
 <?php
 
-namespace CreativeFactoryRV\Cartographer;
+namespace CreativeFactoryRV\Cartographer\Exception;
 
 class MaxUrlCountExceededException extends \RuntimeException {
 

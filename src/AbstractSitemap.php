@@ -2,12 +2,12 @@
 
 namespace CreativeFactoryRV\Cartographer;
 
+use CreativeFactoryRV\Cartographer\Exception\MaxUrlCountExceededException;
 use DateTime;
 use DateTimeZone;
 use DOMDocument;
 use DOMElement;
 use InvalidArgumentException;
-use RuntimeException;
 
 abstract class AbstractSitemap {
     const MAX_URLS = 50000;

@@ -1,7 +1,7 @@
 <?php
 
 use CreativeFactoryRV\Cartographer\AbstractSitemap;
-use CreativeFactoryRV\Cartographer\MaxUrlCountExceededException;
+use CreativeFactoryRV\Cartographer\Exception\MaxUrlCountExceededException;
 
 class MockAbstractSitemap extends AbstractSitemap
 {
