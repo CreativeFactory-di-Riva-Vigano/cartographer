@@ -16,7 +16,7 @@ entries, the sitemap becomes a "map of maps" (i.e. nested sitemaps).
 ### Composer CLI
 
 ```
-composer require creativefactoryrv/cartographer:1.0.*
+composer require creativefactoryrv/cartographer:1.*
 ```
 
 ### composer.json
@@ -24,7 +24,7 @@ composer require creativefactoryrv/cartographer:1.0.*
 ``` json
 {
     "require": {
-        "creativefactoryrv/cartographer": "1.0.*"
+        "creativefactoryrv/cartographer": "1.*"
     }
 }
 ```
