@@ -4,3 +4,12 @@
 
 .DS_Store
 composer.lock
+/test.php
+/docker-compose.yml
+/Dockerfile
+/test-2.php
+/sitemaps/
+/logs/
+/.config/
+/.phpunit.result.cache
+/sitemap.xml
