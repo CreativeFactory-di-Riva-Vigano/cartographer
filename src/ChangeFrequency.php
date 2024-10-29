@@ -1,6 +1,6 @@
 <?php
 
-namespace Tackk\Cartographer;
+namespace CreativeFactoryRV\Cartographer;
 
 class ChangeFrequency
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tackk\Cartographer;
+namespace CreativeFactoryRV\Cartographer;
 
 use DateTime;
 use DateTimeZone;
@@ -9,13 +9,7 @@ use DOMElement;
 use InvalidArgumentException;
 use RuntimeException;
 
-class MaxUrlCountExceededException extends RuntimeException
-{
-}
-
-
-abstract class AbstractSitemap
-{
+abstract class AbstractSitemap {
     const MAX_URLS = 50000;
 
     /**
@@ -68,8 +62,7 @@ abstract class AbstractSitemap
     /**
      * Sets up the sitemap XML document and urlset node.
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->document = new DOMDocument($this->xmlVersion, $this->xmlEncoding);
         $this->rootNode = $this->document->createElementNS($this->xmlNamespaceUri, $this->getRootNodeName());
 
@@ -80,14 +73,12 @@ abstract class AbstractSitemap
     /**
      * Freeze the sitemap, and append the rootNode to the document.
      */
-    public function freeze()
-    {
+    public function freeze() {
         $this->document->appendChild($this->rootNode);
         $this->isFrozen = true;
     }
 
-    public function isFrozen()
-    {
+    public function isFrozen() {
         return $this->isFrozen;
     }
 
@@ -95,8 +86,7 @@ abstract class AbstractSitemap
      * Gets the number of Urls in the sitemap.
      * @return int
      */
-    public function getUrlCount()
-    {
+    public function getUrlCount() {
         return $this->urlCount;
     }
 
@@ -104,8 +94,7 @@ abstract class AbstractSitemap
      * Checks if the sitemap contains the maximum URL count.
      * @return bool
      */
-    public function hasMaxUrlCount()
-    {
+    public function hasMaxUrlCount() {
         return $this->urlCount === static::MAX_URLS;
     }
 
@@ -113,18 +102,16 @@ abstract class AbstractSitemap
      * Converts the Sitemap to an XML string.
      * @return string
      */
-    public function toString()
-    {
-        return (string) $this;
+    public function toString() {
+        return (string)$this;
     }
 
     /**
      * Converts the Sitemap to an XML string.
      * @return string
      */
-    public function __toString()
-    {
-        if (!$this->isFrozen()) {
+    public function __toString() {
+        if ( !$this->isFrozen() ) {
             $this->freeze();
         }
 
@@ -133,20 +120,19 @@ abstract class AbstractSitemap
 
     /**
      * Adds a URL to the document with the given array of elements.
-     * @param  array $urlArray
+     * @param array $urlArray
      * @return $this
      * @throws MaxUrlCountExceededException
      */
-    protected function addUrlToDocument(array $urlArray)
-    {
-        if ($this->hasMaxUrlCount()) {
+    protected function addUrlToDocument(array $urlArray) {
+        if ( $this->hasMaxUrlCount() ) {
             throw new MaxUrlCountExceededException('Maximum number of URLs has been reached, cannot add more.');
         }
 
         $node = $this->document->createElement($this->getNodeName());
 
-        foreach ($urlArray as $key => $value) {
-            if (is_null($value)) {
+        foreach ( $urlArray as $key => $value ) {
+            if ( is_null($value) ) {
                 continue;
             }
             $node->appendChild(new DOMElement($key, $value));
@@ -159,35 +145,47 @@ abstract class AbstractSitemap
 
     /**
      * Escapes a string so it can be inserted into the Sitemap
-     * @param  string $string The string to escape.
+     * @param string $string The string to escape.
      * @return string
      */
-    protected function escapeString($string)
-    {
-        $from = ['&', '\'', '"', '>', '<'];
-        $to   = ['&amp;', '&apos;', '&quot;', '&gt;', '&lt;'];
+    protected function escapeString($string) {
+        $from = [
+            '&',
+            '\'',
+            '"',
+            '>',
+            '<'
+        ];
+        $to = [
+            '&amp;',
+            '&apos;',
+            '&quot;',
+            '&gt;',
+            '&lt;'
+        ];
 
         return str_replace($from, $to, $string);
     }
 
     /**
      * Takes a date as a string (or int in the case of a unix timestamp).
-     * @param  string $dateString
+     * @param string $dateString
      * @return string
      * @throws InvalidArgumentException
      */
-    protected function formatDate($dateString)
-    {
+    protected function formatDate($dateString) {
         try {
             // We have to handle timestamps a little differently
-            if (is_numeric($dateString) && (int) $dateString == $dateString) {
-                $date = DateTime::createFromFormat('U', (int) $dateString, new DateTimeZone('UTC'));
-            } else {
+            if ( is_numeric($dateString) && (int)$dateString == $dateString ) {
+                $date = DateTime::createFromFormat('U', (int)$dateString, new DateTimeZone('UTC'));
+            }
+            else {
                 $date = new DateTime($dateString, new DateTimeZone('UTC'));
             }
 
             return $date->format(DateTime::W3C);
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
             throw new InvalidArgumentException("Malformed last modified date: {$dateString}", 0, $e);
         }
     }

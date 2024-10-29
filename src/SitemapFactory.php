@@ -1,17 +1,17 @@
 <?php
 
-namespace Tackk\Cartographer;
+namespace CreativeFactoryRV\Cartographer;
 
 use ArrayObject;
 use DateTime;
 use Iterator;
-use League\Flysystem\FilesystemInterface;
+use League\Flysystem\FilesystemOperator;
 use RuntimeException;
 
 class SitemapFactory
 {
     /**
-     * @var FilesystemInterface
+     * @var FilesystemOperator
      */
     protected $filesystem = null;
 
@@ -26,16 +26,16 @@ class SitemapFactory
     protected $filesCreated = [];
 
     /**
-     * @param FilesystemInterface $filesystem
+     * @param FilesystemOperator $filesystem
      */
-    public function __construct(FilesystemInterface $filesystem)
+    public function __construct(FilesystemOperator $filesystem)
     {
         $this->filesystem = $filesystem;
     }
 
     /**
      * Gets the Filesystem.
-     * @return FilesystemInterface
+     * @return FilesystemOperator
      */
     public function getFilesystem()
     {
@@ -184,7 +184,7 @@ class SitemapFactory
      */
     protected function randomHash()
     {
-        return md5($this->randomBytes(32));
+        return md5(random_bytes(32));
     }
 
     /**
@@ -195,23 +195,5 @@ class SitemapFactory
     protected function fileUrl($file)
     {
         return $this->baseUrl.'/'.ltrim($file, '/');
-    }
-
-    /**
-     * Generates a string of random bytes (of given length).
-     * @param  integer $bytes The number of bytes to return.
-     * @throws \RuntimeException
-     * @return string
-     * @codeCoverageIgnore
-     */
-    protected function randomBytes($bytes = 32)
-    {
-        if (extension_loaded('openssl')) {
-            return openssl_random_pseudo_bytes($bytes);
-        } elseif (extension_loaded('mcrypt')) {
-            return mcrypt_create_iv($bytes, MCRYPT_DEV_URANDOM);
-        }
-
-        throw new RuntimeException('Extension "openssl" or "mcrypt" is required, but is not installed.');
     }
 }
