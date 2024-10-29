@@ -36,9 +36,9 @@ Generator.
 
 ``` php
 use CreativeFactoryRV\Cartographer\ChangeFrequency;
-use CreativeFactoryRV\Cartographer\Sitemap
+use CreativeFactoryRV\Cartographer\Sitemap;
 
-$sitemap = new Tackk\Cartographer\Sitemap();
+$sitemap = new Sitemap();
 $sitemap->add('http://foo.com', '2005-01-02', ChangeFrequency::WEEKLY, 1.0);
 $sitemap->add('http://foo.com/about', '2005-01-01');
 
@@ -74,6 +74,7 @@ If you want to build a Sitemap Index, separate from the Sitemap Generator, you c
 
 ``` php
 $sitemapIndex = new CreativeFactoryRV\Cartographer\SitemapIndex();
+
 $sitemapIndex->add('http://foo.com/sitemaps/sitemap.1.xml', '2012-01-02');
 $sitemapIndex->add('http://foo.com/sitemaps/sitemap.2.xml', '2012-01-02');
 
