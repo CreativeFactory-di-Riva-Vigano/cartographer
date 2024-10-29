@@ -1,6 +1,6 @@
 <?php
 
-class SitemapIndexTest extends PHPUnit_Framework_TestCase
+class SitemapIndexTest extends \PHPUnit\Framework\TestCase
 {
     public function testToString()
     {
@@ -18,7 +18,7 @@ class SitemapIndexTest extends PHPUnit_Framework_TestCase
 </sitemapindex>
 
 XML;
-        $sitemapIndex = new Tackk\Cartographer\SitemapIndex();
+        $sitemapIndex = new CreativeFactoryRV\Cartographer\SitemapIndex();
         $sitemapIndex->add('http://foo.com/sitemaps/sitemap.1.xml', '2012-01-02');
         $sitemapIndex->add('http://foo.com/sitemaps/sitemap.2.xml', '2012-01-02');
         $this->assertEquals($expected, $sitemapIndex->toString());

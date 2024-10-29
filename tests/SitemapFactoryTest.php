@@ -1,47 +1,38 @@
 <?php
+
+use CreativeFactoryRV\Cartographer\SitemapFactory;
 use League\Flysystem\Filesystem;
-use League\Flysystem\Adapter\Local as LocalAdapter;
+use League\Flysystem\FilesystemOperator;
+use League\Flysystem\Local\LocalFilesystemAdapter;
 
-class GeneratorTest extends PHPUnit_Framework_TestCase
-{
-    /**
-     * @var Tackk\Cartographer\SitemapFactory
-     */
-    protected $factory;
+class SitemapFactoryTest extends \PHPUnit\Framework\TestCase {
+    protected CreativeFactoryRV\Cartographer\SitemapFactory $factory;
 
-    /**
-     * @var League\Flysystem\Filesystem
-     */
-    protected $filesystem;
+    protected Filesystem $filesystem;
 
-    public function setUp()
-    {
-        $adapter = new LocalAdapter(__DIR__.'/storage/sitemaps');
+    public function setUp(): void {
+        $adapter = new LocalFilesystemAdapter(__DIR__ . '/storage/sitemaps');
         $this->filesystem = new Filesystem($adapter);
-        $this->factory = new Tackk\Cartographer\SitemapFactory($this->filesystem);
+        $this->factory = new CreativeFactoryRV\Cartographer\SitemapFactory($this->filesystem);
     }
 
-    public function testCanInstantiate()
-    {
-        $this->assertInstanceOf('Tackk\Cartographer\SitemapFactory', $this->factory);
+    public function testCanInstantiate() {
+        $this->assertInstanceOf(SitemapFactory::class, $this->factory);
     }
 
-    public function testGetFilesystem()
-    {
-        $this->assertInstanceOf('League\Flysystem\FilesystemInterface', $this->factory->getFilesystem());
+    public function testGetFilesystem() {
+        $this->assertInstanceOf(FilesystemOperator::class, $this->factory->getFilesystem());
     }
 
-    public function testSetBaseUrl()
-    {
+    public function testSetBaseUrl() {
         $this->factory->setBaseUrl('foo/');
-        $this->assertAttributeEquals('foo', 'baseUrl', $this->factory);
+        $this->assertEquals('foo', $this->factory->getBaseUrl());
 
         $this->factory->setBaseUrl('foo');
-        $this->assertAttributeEquals('foo', 'baseUrl', $this->factory);
+        $this->assertEquals('foo', $this->factory->getBaseUrl());
     }
 
-    public function testGetBaseUrl()
-    {
+    public function testGetBaseUrl() {
         $class = new ReflectionClass($this->factory);
         $baseUrl = $class->getProperty('baseUrl');
         $baseUrl->setAccessible(true);
@@ -50,8 +41,7 @@ class GeneratorTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('foo', $this->factory->getBaseUrl());
     }
 
-    public function testGetFileCreated()
-    {
+    public function testGetFileCreated() {
         $class = new ReflectionClass($this->factory);
         $filesCreated = $class->getProperty('filesCreated');
         $filesCreated->setAccessible(true);
@@ -60,14 +50,12 @@ class GeneratorTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(['foo.txt'], $this->factory->getFilesCreated());
     }
 
-    public function testCreateRequiresIterator()
-    {
-        $this->setExpectedException('PHPUnit_Framework_Error');
+    public function testCreateRequiresIterator() {
+        $this->expectException(ArgumentCountError::class);
         $this->factory->createSitemap();
     }
 
-    public function testCanCreateSmallSitemap()
-    {
+    public function testCanCreateSmallSitemap() {
         $expected = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -84,8 +72,8 @@ class GeneratorTest extends PHPUnit_Framework_TestCase
 
 XML;
         $urls = [];
-        for ($i = 1; $i <= 3; $i++) {
-            $urls[] = ['url' => 'http://foo.com/'.$i];
+        for ( $i = 1; $i <= 3; $i++ ) {
+            $urls[] = ['url' => 'http://foo.com/' . $i];
         }
         $path = $this->factory->createSitemap(new ArrayIterator($urls));
 
@@ -94,24 +82,23 @@ XML;
         $this->assertEquals($expected, $actual);
     }
 
-    public function testLargeSitemapCreatesIndex()
-    {
+    public function testLargeSitemapCreatesIndex() {
         $urls = [];
-        for ($i = 1; $i <= 50002; $i++) {
-            $urls[] = ['url' => 'http://foo.com/'.$i];
+        for ( $i = 1; $i <= 50002; $i++ ) {
+            $urls[] = ['url' => 'http://foo.com/' . $i];
         }
         $path = $this->factory->createSitemap(new ArrayIterator($urls));
         $this->assertTrue($this->filesystem->has($path));
 
-        foreach ($this->factory->getFilesCreated() as $file) {
+        foreach ( $this->factory->getFilesCreated() as $file ) {
             $this->assertTrue($this->filesystem->has($file));
             $this->filesystem->delete($file);
         }
     }
 
-    public function testUrlMustBePresent()
-    {
-        $this->setExpectedException('InvalidArgumentException', 'Url is missing or not accessible.');
+    public function testUrlMustBePresent() {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Url is missing or not accessible.');
         $this->factory->createSitemap(new ArrayIterator([[]]));
     }
 }

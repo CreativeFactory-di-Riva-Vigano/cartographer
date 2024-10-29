@@ -1,6 +1,7 @@
 <?php
 
-use Tackk\Cartographer\AbstractSitemap;
+use CreativeFactoryRV\Cartographer\AbstractSitemap;
+use CreativeFactoryRV\Cartographer\MaxUrlCountExceededException;
 
 class MockAbstractSitemap extends AbstractSitemap
 {
@@ -15,14 +16,14 @@ class MockAbstractSitemap extends AbstractSitemap
     }
 }
 
-class AbstractSitemapTest extends PHPUnit_Framework_TestCase
+class AbstractSitemapTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var Tackk\Cartographer\AbstractSitemap
+     * @var CreativeFactoryRV\Cartographer\AbstractSitemap
      */
     protected $abstractMock;
 
-    public function setUp()
+    public function setUp():void
     {
         $this->abstractMock = new MockAbstractSitemap();
     }
@@ -41,7 +42,7 @@ class AbstractSitemapTest extends PHPUnit_Framework_TestCase
 
     public function testFormatDateWithInvalidDate()
     {
-        $this->setExpectedException('InvalidArgumentException');
+        $this->expectException(\InvalidArgumentException::class);
         $this->callProtectedMethod('formatDate', ['foo']);
     }
 
@@ -71,7 +72,7 @@ class AbstractSitemapTest extends PHPUnit_Framework_TestCase
         $urlCount->setAccessible(true);
         $urlCount->setValue($this->abstractMock, AbstractSitemap::MAX_URLS);
 
-        $this->setExpectedException('Tackk\Cartographer\MaxUrlCountExceededException');
+        $this->expectException(MaxUrlCountExceededException::class);
         $this->callProtectedMethod('addUrlToDocument', [['loc' => 'http://foo.com']]);
     }
 

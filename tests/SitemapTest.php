@@ -1,8 +1,8 @@
 <?php
-use Tackk\Cartographer\Sitemap;
-use Tackk\Cartographer\ChangeFrequency;
+use CreativeFactoryRV\Cartographer\Sitemap;
+use CreativeFactoryRV\Cartographer\ChangeFrequency;
 
-class SitemapTest extends PHPUnit_Framework_TestCase
+class SitemapTest extends \PHPUnit\Framework\TestCase
 {
     public function testToString()
     {
