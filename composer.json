@@ -1,7 +1,7 @@
 {
     "name": "creativefactoryrv/cartographer",
     "description": "A PHP sitemap generation tool.",
-    "version": "1.0.1",
+    "version": "1.1.1",
     "keywords": ["sitemap", "generator"],
     "license": "MIT",
     "authors": [

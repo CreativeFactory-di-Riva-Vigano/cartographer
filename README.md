@@ -1,6 +1,8 @@
 # Cartographer
 
-A sitemap generation tool for PHP following the [Sitemap Protocol v0.9](http://www.sitemaps.org/protocol.html), based on the work of Dan Horrigan ([tackk/cartographer](https://github.com/tackk/cartographer)). This fork was created to address vulnerabilities arising from outdated dependencies.
+A sitemap generation tool for PHP following the [Sitemap Protocol v0.9](http://www.sitemaps.org/protocol.html), based on the work of Dan Horrigan ([tackk/cartographer](https://github.com/tackk/cartographer)).
+
+This fork was originally created to address vulnerabilities arising from outdated dependencies and along the way became compatible with PHP 8, bringing the original features into the current context.
 
 Cartographer can handle Sitemaps of any size.  When generating sitemaps with more than 50,000
 entries, the sitemap becomes a "map of maps" (i.e. nested sitemaps).
