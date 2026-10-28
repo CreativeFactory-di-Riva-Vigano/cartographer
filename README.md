@@ -9,7 +9,7 @@ entries, the sitemap becomes a "map of maps" (i.e. nested sitemaps).
 
 ## Supported PHP/HHVM Versions
 
-* **PHP:** >= 8.0.2
+* **PHP:** >= 8.2
 
 ## Installation
 
