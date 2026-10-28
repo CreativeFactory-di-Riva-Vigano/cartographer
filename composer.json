@@ -1,7 +1,6 @@
 {
     "name": "creativefactoryrv/cartographer",
     "description": "A powerful yet user-friendly PHP sitemap generator designed to create large, comprehensive sitemaps.",
-    "version": "2.0.0",
     "keywords": ["sitemap", "generator"],
     "license": "MIT",
     "authors": [
